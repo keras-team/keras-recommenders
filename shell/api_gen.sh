@@ -6,7 +6,6 @@ base_dir=$(dirname $(dirname $0))
 echo "Generating api directory with public APIs..."
 # Generate API Files
 python3 "${base_dir}"/api_gen.py
-
-echo "Formatting api directory..."
-# Format API Files
-bash "${base_dir}"/shell/format.sh
+# Format code because `api_gen.py` might order
+# imports differently.
+pre-commit run --files $(find "${base_dir}"/keras_rs/api -type f) || true
